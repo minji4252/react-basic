@@ -119,3 +119,8 @@ body {
 
 - App.js 수정 후
   `yarn start`
+
+- `git add . `
+- `git commit`
+- `git remote add origin https://github.com/minji4252/react-basic.git`
+- `git push -u origin main`
