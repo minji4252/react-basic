@@ -1,126 +1,189 @@
-# 1. 리액트 프로젝트 초기세팅
+# 1. JSX 문법
 
-## 1.1. 리액트 프로젝트 생성
+## 1.1. 감싸인 요소
 
-- `npx create-react-app ./`
-- `yarn create react-app ./` 택1
-
-## 1.2. 파일 정리
-
-- src/test 파일들 삭제
-- App.css 파일 삭제
-- index.js 파일 정리
+- JSX 파일(컴포넌트)은 첫글자를 대문자
+- <></> Fragment
+- src/Main.js
 
 ```js
 import React from "react";
-import ReactDOM from "react-dom/client";
-import "./index.css";
-import App from "./App";
 
-const root = ReactDOM.createRoot(document.getElementById("root"));
-root.render(<App />);
+const Main = () => {
+  return (
+    <>
+      <h1>리액트 안녕</h1>
+      <h2>리액트 안녕</h2>
+    </>
+  );
+};
+
+export default Main;
 ```
 
-- index.css 파일 수정(다 지우고 아래 내용 붙여넣기)
+## 1.2. 자바스크립트 표현
+
+- JSX 안에서 자바스크립트 표현식 코드를 {}로 감싸면 된다.
+
+```js
+import React from "react";
+
+const Main = () => {
+  const title = "React";
+
+  return (
+    <>
+      <h1>{title} 안녕</h1>
+      <h2>리액트 안녕</h2>
+    </>
+  );
+};
+
+export default Main;
+```
+
+## 1.3. If문 대신 조건부 연산자(삼항 연산자)
+
+- JSX 내부의 자바스크립트 표현식에서 if문을 사용할 수 없다.
+- JSX 밖에서 if문을 사용하여 사전에 값을 설정하거나
+- 조건부 연산자(삼항 연산자)를 사용한다.
+
+```js
+import React from "react";
+
+const Main = () => {
+  const title = "React";
+
+  return (
+    <>
+      {title === "리액트" ? (
+        <h1>리액트입니다.</h1>
+      ) : (
+        <h2>리액트가 아닙니다.</h2>
+      )}
+    </>
+  );
+};
+
+export default Main;
+```
+
+## 1.4. AND 연산(&&)를 사용한 조건부 렌더링
+
+- 어떤 조건에 참(true)일 때 출력하고 싶다면 &&(AND) 연산자를 사용
+
+```js
+import React from "react";
+
+const Main = () => {
+  const title = "리액트";
+
+  return <>{title === "리액트" && <h1>리액트입니다.</h1>}</>;
+};
+
+export default Main;
+```
+
+## 1.5. undefined를 렌더링 하지않기
+
+- 어떤 조건에 거짓(false)일 때 출력하고 싶다면 ||(OR) 연산자를 사용
+- OR ||
+
+```js
+import React from "react";
+
+const Main = () => {
+  const title = undefined;
+
+  return <div>{title}</div>;
+};
+
+export default Main;
+```
+
+## 1.6. 인라인 스타일링
+
+- DOM 요소에 스타일을 적용할 때는 문자열이 아닌 객체 형태로
+- 카멜케이스
+
+```js
+import React from "react";
+
+const Main = () => {
+  const title = "리액트";
+
+  return (
+    <div
+      style={{ backgroundColor: "pink", fontSize: "48px", fontWeight: "bold" }}
+    >
+      {title}
+    </div>
+  );
+};
+
+export default Main;
+```
+
+```js
+import React from "react";
+
+const Main = () => {
+  const title = "리액트";
+
+  const style = {
+    backgroundColor: "pink",
+    fontSize: "48px",
+    fontWeight: "bold",
+  };
+  return <div style={style}>{title}</div>;
+};
+
+export default Main;
+```
+
+## 1.7. class 대신 className
+
+```js
+import React from "react";
+import "./react.css";
+
+const Main = () => {
+  const title = "리액트";
+
+  return <div className="react">{title}</div>;
+};
+
+export default Main;
+```
 
 ```css
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  outline-style: none;
-}
-ul,
-li {
-  list-style: none;
-}
-a {
-  color: #000000;
-  text-decoration: none;
-}
-img {
-  vertical-align: middle;
-  border: 0;
-}
-html {
-  font-size: 16px;
-}
-body {
-  font-family: "Pretendard-Regular", sans-serif;
-  font-size: 1rem;
-  line-height: 1.25;
-  letter-spacing: -0.23px;
-  word-break: keep-all;
-  color: #000000;
+.react {
+  background-color: pink;
+  font-size: 48px;
+  font-weight: bold;
 }
 ```
 
-## 1.3. React 개발 편의 도구 설치
+## 1.8. styled-component(Emotion)
 
-- React 크롬 개발 도구 [DevTools](https://chromewebstore.google.com/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi?hl=ko)
-- VSCode React Plugin (ES7+ React/Redux/React-Native snippets ) 설치
+- 자주 사용하는 방식
+- CSS in JS
 
-## 1.4. normalize.css 설정 (css 초기화)
+```js
+import React from "react";
+import styled from "@emotion/styled";
 
-- `yarn add normalize.css`
-- src/index.js에서 `import "normalize.css";` 추가 후 `alt + shift + o` 하면 자동정렬 됨
+const StyledTitle = styled.div`
+  background-color: pink;
+  font-size: 48px;
+  font-weight: bold;
+`;
 
-## 1.5. scss, emotion.js 설치
+const Main = () => {
+  const title = "리액트";
 
-- `yarn add sass`
-- `yarn add @emotion/react`
-- `yarn add @emotion/styled`
+  return <StyledTitle>{title}</StyledTitle>;
+};
 
-## 1.6. ESLint, prettier 설정
-
-- .prettierrc.json 파일 생성 후 아래 내용 붙여넣기
-
-```json
-{
-  "singleQuote": false,
-  "semi": true,
-  "useTabs": false,
-  "tabWidth": 2,
-  "trailingComma": "all",
-  "printWidth": 80,
-  "arrowParens": "avoid",
-  "endOfLine": "auto"
-}
+export default Main;
 ```
-
-- ESLint 설정
-
-  - `yarn add eslint --dev`
-  - `npx eslint --init` - npm 경우만
-  - `yarn eslint --init` 모두 enter 하고 마지막 것만 yarn 선택
-
-- ESLint와 Prettier를 연결하여 ESLint 설정
-
-  - `yarn add eslint-config-prettier --save-dev`
-  - .eslintrc.js `extends, rules` 부분에 아래내용 덮어씌우기
-
-    ```js
-    extends: [
-    "eslint:recommended",
-    "plugin:react/recommended",
-    "prettier"
-    ],
-
-    rules: {
-    "react/react-in-jsx-scope": "off",
-    "react/prop-types": "off",
-    "no-unused-vars": "off",
-    },
-    ```
-
-- 바벨에 의한 경고 제외
-
-  - `yarn add @babel/plugin-proposal-private-property-in-object --dev`
-
-- App.js 수정 후
-  `yarn start`
-
-- `git add . `
-- `git commit`
-- `git remote add origin https://github.com/minji4252/react-basic.git`
-- `git push -u origin main`
