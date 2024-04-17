@@ -1,6 +1,6 @@
 # 4. 함수 컴포넌트 이벤트
 
-- 리액트의 이벤트 시스템
+- 리액트에서 이벤트를 사용할 때 주의사항
 
   - 카멜케이스 작성 HTML 의 onclick은 onClick
   - 함수 형태의 값을 전달
@@ -25,18 +25,24 @@
   - animation
   - transition
 
-## 4.1. 함수 컴포넌트 이벤트 핸들링 구현해보기
+## 4.1. 함수 컴포넌트로 이벤트 핸들링 구현해보기
 
 ```js
-import React, { Component, useState } from "react";
+import React, { useState } from "react";
 
 const Main = () => {
   // username 상태
+  // const [현재상태, 상태업데이트함수] = useState(초기값)
   const [username, setUsername] = useState("");
+  const [message, setMessage] = useState("");
+
+  const onChangeMessage = event => {
+    setMessage(event.target.value);
+    console.log(event.target.value);
+  };
 
   const onChangeUsername = event => {
     setUsername(event.target.value);
-    console.log(event.target.value);
   };
 
   return (
@@ -49,6 +55,14 @@ const Main = () => {
         value={username}
         onChange={onChangeUsername}
       />
+      <br />
+      <input
+        type="text"
+        name="message"
+        placeholder="아무거나 입력해 보세요"
+        value={message}
+        onChange={onChangeMessage}
+      />
     </div>
   );
 };
@@ -57,7 +71,7 @@ export default Main;
 ```
 
 ```js
-import React, { Component, useState } from "react";
+import React, { useState } from "react";
 
 const Main = () => {
   // username 상태
@@ -65,19 +79,19 @@ const Main = () => {
   const [username, setUsername] = useState("");
   const [message, setMessage] = useState("");
 
-  const onChangeUsername = e => {
-    //e도 가능, 웬만하면 event로 적기
-    setUsername(e.target.value);
-    console.log(e.target.value);
-  };
-
   const onChangeMessage = event => {
     setMessage(event.target.value);
     console.log(event.target.value);
   };
 
+  const onChangeUsername = event => {
+    setUsername(event.target.value);
+  };
+
   const onClick = () => {
     alert(`${username}: ${message}`);
+    setUsername(""),
+    setMessage(""),
   };
 
   const onKeyPress = event => {
@@ -102,7 +116,6 @@ const Main = () => {
         name="message"
         placeholder="아무거나 입력해 보세요"
         value={message}
-        //내용을 변경할 땐 onChange
         onChange={onChangeMessage}
         onKeyUp={onKeyPress}
       />
@@ -119,7 +132,7 @@ export default Main;
 - input의 갯수가 많아질 것 같으면 event.target.name을 쓰는 것이 더 좋을 수도 있다.
 
 ```js
-import React, { Component, useState } from "react";
+import React, { useState } from "react";
 
 const initState = {
   username: "",
@@ -129,12 +142,13 @@ const initState = {
 //input태그가 여러개 있을 때 함수를 하나로 쓰는 방법
 const Main = () => {
   const [memberInfo, setMemberInfo] = useState(initState);
+
   const { username, message } = memberInfo;
 
   const onChange = event => {
     const nextMemberInfo = {
-      ...memberInfo, //기존의 정보 내용을 이 자리에 복사한 뒤
-      [event.target.name]: event.target.value, //원하는 값을 덮어 씌우기
+      ...memberInfo, // 기존의 정보 내용을 이자리에 복사한 뒤
+      [event.target.name]: event.target.value, // 원하는 값을 덮어 씌우기
     };
     setMemberInfo(nextMemberInfo);
   };
@@ -166,7 +180,6 @@ const Main = () => {
         name="message"
         placeholder="아무거나 입력해 보세요"
         value={message}
-        //내용을 변경할 땐 onChange
         onChange={onChange}
         onKeyUp={onKeyPress}
       />
