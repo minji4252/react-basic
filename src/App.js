@@ -1,7 +1,11 @@
-import Main from "./Main";
+import MainPage from "./pages/MainPage";
 
 function App() {
-  return <Main title="React">리액트</Main>; //main안에 문자적으면 children의 값이 업데이트됨
+  return (
+    <>
+      <MainPage />
+    </>
+  );
 }
 
 export default App;
