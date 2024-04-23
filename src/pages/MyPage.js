@@ -1,7 +1,7 @@
 import { Navigate } from "react-router-dom";
 
 const MyPage = () => {
-  const isLogin = true;
+  const isLogin = flase;
 
   //   if (!isLogin) {
   //     return <Navigate to={"/login"} replace={true} />;
